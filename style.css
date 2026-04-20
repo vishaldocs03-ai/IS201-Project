@@ -1,5 +1,50 @@
 body {
+    margin: 0;
     background-color: rgb(126, 219, 250);
     font-family: sans-serif;
     color: rgb(3, 43, 43);
+}
+
+#header {
+    background-color: rgb(57, 90, 113);
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#header a {
+    color: white;
+}
+
+#hero {
+    background-image: url("images/bakery.jpg");
+    background-size: 100%;
+    padding: 5rem 2rem;
+    color: white;
+    text-shadow: 0 0 10px black;
+
+    & h2 {
+        font-size: 4rem;
+        margin: 0.5rem;
+    }
+
+    & p {
+        max-width: 500px;
+    }
+}
+
+#main {
+    padding: 1rem;
+}
+
+#main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+#footer {
+    padding: 1rem;
 }
