@@ -1,0 +1,311 @@
+:root {
+    --navy: #0d1b2a;
+    --slate: #1b2d45;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --offwhite: #f5f2ed;
+    --muted: #8a9ab0;
+    --border: rgba(201,168,76,0.2);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background: var(--navy);
+    color: var(--offwhite);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+}
+
+/* ── HEADER / NAV ── */
+header {
+    background: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+}
+
+header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--offwhite);
+    margin: 0;
+}
+
+header nav a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 1.5rem;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+}
+
+header nav a:hover { color: var(--gold); }
+
+/* ── HERO ── */
+.hero {
+    padding: 6rem 0 4rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+.hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--offwhite);
+    margin-bottom: 1.25rem;
+}
+
+.hero-name span { color: var(--gold); }
+
+.hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+}
+
+.hero-divider {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 2rem 0;
+}
+
+/* ── SECTIONS ── */
+section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+}
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    color: var(--offwhite);
+    margin-bottom: 2.5rem;
+    line-height: 1.15;
+}
+
+/* ── ABOUT ── */
+.about-card {
+    background: var(--slate);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+}
+
+.about-card p {
+    color: #b8c4d0;
+    line-height: 1.8;
+    font-size: 0.97rem;
+    margin-bottom: 1.25rem;
+}
+
+.about-card p:last-child { margin-bottom: 0; }
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.75rem; }
+
+.tag {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 14px;
+}
+
+/* ── RESUME ── */
+.resume-block { margin-bottom: 3rem; }
+
+.resume-block:last-child { margin-bottom: 0; }
+
+.resume-section-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.resume-item { margin-bottom: 1.75rem; }
+.resume-item:last-child { margin-bottom: 0; }
+
+.resume-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 0.2rem;
+}
+
+.resume-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--offwhite);
+}
+
+.resume-date {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.resume-org {
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+}
+
+.resume-org span {
+    color: var(--muted);
+    font-weight: 300;
+    margin-left: 6px;
+}
+
+.resume-item ul {
+    padding-left: 1.1rem;
+    margin: 0;
+}
+
+.resume-item ul li {
+    font-size: 13.5px;
+    color: #9aaabb;
+    line-height: 1.7;
+    margin-bottom: 4px;
+}
+
+.resume-item ul li::marker { color: var(--gold); }
+
+.edu-degree {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--offwhite);
+}
+
+.edu-school {
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+}
+
+.edu-details {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-pill {
+    font-size: 12.5px;
+    color: #b8c4d0;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 5px 14px;
+}
+
+/* ── CONTACT ── */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.contact-card {
+    background: var(--slate);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.contact-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+}
+
+.contact-icon {
+    font-size: 22px;
+    color: var(--gold);
+    flex-shrink: 0;
+}
+
+.contact-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.contact-value {
+    font-size: 14px;
+    color: var(--offwhite);
+    font-weight: 400;
+}
+
+/* ── FOOTER ── */
+footer {
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow { animation: fadeUp 0.5s ease both; }
+.hero-name    { animation: fadeUp 0.5s 0.1s ease both; }
+.hero-sub     { animation: fadeUp 0.5s 0.2s ease both; }
+.hero-divider { animation: fadeUp 0.5s 0.3s ease both; }

@@ -3,10 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Vishal Arun Kumar</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="index.css">
+
 </head>
 <body>
-    <h1>Professional page</h1>
-    <a href="scratch.html">Scratch page</a>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1>Professional page</h1>
+            <nav>
+                <a href="cake-trivia.html">Trivia app</a>
+                <a href="scratch.html">From-scratch web page</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">Product Management · Consulting · Strategy</div>
+            <div class="hero-name">Vishal<br><span>Arun Kumar</span></div>
+            <p class="hero-sub">Undergraduate at Brigham Young University pursuing Information Systems — building toward a career in product management and strategic consulting.</p>
+            <div class="hero-divider"></div>
+        </div>
+    </div>
+
+    <!-- SECTION 1: ABOUT -->
+    <section id="about">
+        <div class="container">
+            <div class="section-label">About</div>
+            <div class="section-title">Interest in PM<br>&amp; Consulting</div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="about-card">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. I've always been drawn to the intersection of technology and human behavior — the question of why people use products the way they do, and how thoughtful design and strategy can close the gap between what exists and what's truly needed. Product management sits right at that intersection, and it's where I want to build my career.
+                        </p>
+                        <p>
+                            My interest in consulting grew from a similar place. During my time at KnowQuest, I saw firsthand how the right framing — the right narrative — could unlock doors that raw data alone never would. Working directly with a CEO on investor positioning taught me that strategy isn't just about having good ideas; it's about communicating them in a way that moves people to act.
+                        </p>
+                        <p>
+                            I'm currently studying Information Systems at BYU, where I'm building a foundation in data, systems thinking, and business analysis. Outside of class, I'm actively exploring APM programs, sharpening my understanding of what great product work looks like, and looking for opportunities to contribute at the intersection of user insight, business strategy, and technology.
+                        </p>
+                        <p>
+                            <em>[Replace this section with your own content whenever you're ready — just share it and I'll drop it in.]</em>
+                        </p>
+                        <div class="tag-row">
+                            <span class="tag">Product Management</span>
+                            <span class="tag">Management Consulting</span>
+                            <span class="tag">Information Systems</span>
+                            <span class="tag">Venture Strategy</span>
+                            <span class="tag">Agile</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: RESUME -->
+    <section id="resume">
+        <div class="container">
+            <div class="section-label">Résumé</div>
+            <div class="section-title">Experience &amp;<br>Background</div>
+
+            <div class="row g-5">
+                <!-- LEFT COLUMN -->
+                <div class="col-lg-7">
+
+                    <!-- Education -->
+                    <div class="resume-block">
+                        <div class="resume-section-title">Education</div>
+                        <div class="resume-item">
+                            <div class="edu-degree">B.S. in Economics (intended Information Systems)</div>
+                            <div class="edu-school">Brigham Young University <span style="color:var(--muted);font-weight:300;">· Provo, Utah</span></div>
+                            <div class="edu-details">Expected April 2028 &nbsp;·&nbsp; Relevant: Information Systems, Finance Principles, Accounting Principles</div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Experience -->
+                    <div class="resume-block">
+                        <div class="resume-section-title">Professional Experience</div>
+
+                        <div class="resume-item">
+                            <div class="resume-item-header">
+                                <div class="resume-role">Management Consulting Intern</div>
+                                <div class="resume-date">Jun 2025 – Aug 2025</div>
+                            </div>
+                            <div class="resume-org">KnowQuest <span>· Remote</span></div>
+                            <ul>
+                                <li>Conducted primary investor research via 100+ cold calls to VCs and angel investors, synthesizing findings into actionable pitch positioning guidance for the CEO.</li>
+                                <li>Mapped the language, networks, and signals that resonate with active investors to sharpen KnowQuest's narrative ahead of fundraising outreach.</li>
+                                <li>Developed and refined investor-facing financial models, enhancing visual clarity to meet institutional standards.</li>
+                            </ul>
+                        </div>
+
+                        <div class="resume-item">
+                            <div class="resume-item-header">
+                                <div class="resume-role">Industrial Laundry Associate</div>
+                                <div class="resume-date">Jan 2026 – Present</div>
+                            </div>
+                            <div class="resume-org">BYU Laundry <span>· Provo, Utah</span></div>
+                            <ul>
+                                <li>Identified garment processing inefficiency; implemented a manual tracking system to optimize throughput.</li>
+                                <li>Trained employees and established SOPs to ensure consistency, accuracy, and customer satisfaction.</li>
+                                <li>Coordinated shift handoff process to ensure order continuity and reduce duplicate processing errors.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="col-lg-5">
+
+                    <!-- Volunteer & Projects -->
+                    <div class="resume-block">
+                        <div class="resume-section-title">Project &amp; Volunteer Experience</div>
+
+                        <div class="resume-item">
+                            <div class="resume-item-header">
+                                <div class="resume-role">Director of Events</div>
+                                <div class="resume-date">Aug – Dec 2025</div>
+                            </div>
+                            <div class="resume-org">Business Club, Harper College <span>· Palatine, IL</span></div>
+                            <ul>
+                                <li>Coordinated all event logistics — setup, staffing, cleanup — for a student business organization.</li>
+                                <li>Managed volunteer teams and liaised with campus operations to resolve logistical issues.</li>
+                            </ul>
+                        </div>
+
+                        <div class="resume-item">
+                            <div class="resume-item-header">
+                                <div class="resume-role">Events Coordinator</div>
+                                <div class="resume-date">Jan 2026 – Present</div>
+                            </div>
+                            <div class="resume-org">BYU South Asian Club <span>· Provo, Utah</span></div>
+                            <ul>
+                                <li>Executed large-scale cultural events including a Holi celebration with 80+ attendees.</li>
+                                <li>Managed end-to-end logistics: venue booking, procurement, rehearsal coordination.</li>
+                                <li>Directed a community heritage event teaching genealogy tools for cultural engagement.</li>
+                            </ul>
+                        </div>
+
+                        <div class="resume-item">
+                            <div class="resume-item-header">
+                                <div class="resume-role">Volunteer Linguist</div>
+                                <div class="resume-date">Mar 2021 – Jan 2022</div>
+                            </div>
+                            <div class="resume-org">Kids 4 Water <span>· Buffalo Grove, IL</span></div>
+                            <ul>
+                                <li>Led an English program for Indian students using innovative teaching methods.</li>
+                                <li>Built a digital marketing strategy that grew social media engagement by 300%+.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Additional -->
+                    <div class="resume-block">
+                        <div class="resume-section-title">Additional</div>
+                        <div class="skills-grid">
+                            <span class="skill-pill">Tamil (Fluent)</span>
+                            <span class="skill-pill">Basketball</span>
+                            <span class="skill-pill">Soccer</span>
+                            <span class="skill-pill">Chess</span>
+                            <span class="skill-pill">Cooking</span>
+                            <span class="skill-pill">Documentaries</span>
+                            <span class="skill-pill">Sci-Fi Films</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: CONTACT -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-label">Contact</div>
+            <div class="section-title">Get in Touch</div>
+            <div class="contact-grid">
+                <a href="mailto:your.email@example.com" class="contact-card">
+                    <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+                    <div>
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value">your.email@example.com</div>
+                    </div>
+                </a>
+                <a href="https://github.com/yourusername" target="_blank" class="contact-card">
+                    <div class="contact-icon"><i class="bi bi-github"></i></div>
+                    <div>
+                        <div class="contact-label">GitHub</div>
+                        <div class="contact-value">github.com/yourusername</div>
+                    </div>
+                </a>
+                <a href="https://linkedin.com/in/yourusername" target="_blank" class="contact-card">
+                    <div class="contact-icon"><i class="bi bi-linkedin"></i></div>
+                    <div>
+                        <div class="contact-label">LinkedIn</div>
+                        <div class="contact-value">linkedin.com/in/yourusername</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            &copy; 2026 Vishal Arun Kumar &nbsp;·&nbsp; Provo, Utah
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cake Trivia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fdf6ec;
+      --warm: #f5e6cc;
+      --brown: #3b1f0e;
+      --caramel: #c47a2b;
+      --rose: #d4607a;
+      --sage: #5a7a5c;
+      --icing: #fff8f0;
+      --muted: #8a6a52;
+      --border: rgba(59,31,14,0.12);
+      --radius: 16px;
+    }
+
+    body {
+      background: var(--cream);
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(212,96,122,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(196,122,43,0.1) 0%, transparent 60%);
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--brown);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1rem 2rem;
+    }
+
+    site-header {
+      display: block;
+      width: 100%;
+      max-width: 580px;
+      padding: 1.5rem 0 0.25rem;
+      text-align: center;
+    }
+
+    site-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brown);
+      margin-bottom: 0.75rem;
+    }
+
+    site-header nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    site-header nav a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+
+    site-header nav a:hover {
+      color: var(--brown);
+      background: var(--warm);
+      border-color: var(--border);
+    }
+
+    .main-wrap {
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      background: var(--icing);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 580px;
+      box-shadow: 0 8px 40px rgba(59,31,14,0.09), 0 2px 8px rgba(59,31,14,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--rose), var(--caramel), var(--sage));
+    }
+
+    /* ---- SCREENS ---- */
+    .screen { display: none; animation: fadeUp 0.35s ease both; }
+    .screen.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- START ---- */
+    .icon { font-size: 52px; text-align: center; margin-bottom: 1rem; line-height: 1; }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      color: var(--brown);
+      margin-bottom: 0.4rem;
+    }
+
+    .tagline {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 1.75rem;
+    }
+
+    .diff-btn {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 0.5rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-align: center;
+    }
+
+    .diff-btn:hover { border-color: var(--caramel); background: #fffbf5; transform: translateY(-2px); }
+
+    .diff-btn.selected {
+      border-color: var(--caramel);
+      background: #fff8ee;
+      box-shadow: 0 0 0 3px rgba(196,122,43,0.15);
+    }
+
+    .diff-btn .de { font-size: 22px; margin-bottom: 5px; }
+    .diff-btn .dl { font-size: 13px; font-weight: 500; color: var(--brown); }
+    .diff-btn .dd { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .cta {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--brown);
+      color: var(--cream);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.15s;
+      letter-spacing: 0.02em;
+    }
+
+    .cta:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+    .cta:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    /* ---- QUIZ ---- */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .q-label { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    .score-pill {
+      background: var(--warm);
+      color: var(--caramel);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 12px;
+      border-radius: 20px;
+    }
+
+    .progress-track {
+      height: 4px;
+      background: var(--warm);
+      border-radius: 2px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--rose), var(--caramel));
+      border-radius: 2px;
+      transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    }
+
+    .timer-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+
+    .timer-track {
+      flex: 1;
+      height: 3px;
+      background: var(--warm);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .timer-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.1s linear, background 0.4s;
+    }
+
+    .timer-num { font-size: 12px; font-weight: 500; color: var(--muted); min-width: 24px; text-align: right; }
+
+    .q-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .q-cat {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.5rem;
+    }
+
+    .q-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--brown);
+      line-height: 1.55;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .choice {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      color: var(--brown);
+      cursor: pointer;
+      text-align: left;
+      line-height: 1.4;
+      transition: all 0.15s;
+    }
+
+    .choice:hover:not(:disabled) { border-color: var(--caramel); background: #fffbf5; }
+    .choice.correct  { background: #eef6ee; border-color: var(--sage); color: #2e4d2f; font-weight: 500; }
+    .choice.wrong    { background: #fdf0f0; border-color: var(--rose); color: #7a2030; }
+    .choice.reveal   { background: #fff8ee; border-color: var(--caramel); color: #5a3310; }
+    .choice:disabled { cursor: default; }
+
+    .feedback {
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .feedback.show { display: block; }
+    .feedback.correct { background: #eef6ee; color: #2e4d2f; border: 1px solid #b8d9b9; }
+    .feedback.wrong   { background: #fdf0f0; color: #7a2030; border: 1px solid #f0b8c0; }
+
+    .next-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: transparent;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--brown);
+      cursor: pointer;
+      display: none;
+      transition: all 0.15s;
+    }
+
+    .next-btn.show { display: block; }
+    .next-btn:hover { background: var(--warm); border-color: var(--caramel); }
+
+    /* ---- RESULTS ---- */
+    .results-hero { text-align: center; margin-bottom: 1.5rem; }
+    .big-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--brown);
+      line-height: 1;
+    }
+
+    .big-sub { font-size: 13px; color: var(--muted); margin-top: 4px; margin-bottom: 1rem; }
+
+    .rank {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 5px 16px;
+      border-radius: 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat {
+      background: var(--warm);
+      border-radius: 12px;
+      padding: 0.85rem 0.5rem;
+      text-align: center;
+    }
+
+    .stat-val { font-size: 1.4rem; font-weight: 500; color: var(--brown); }
+    .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .review { margin-bottom: 1.5rem; }
+    .review-title { font-size: 12px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+
+    .r-item { padding: 0.65rem 0; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
+    .r-q { color: var(--muted); margin-bottom: 2px; }
+    .r-a { font-weight: 500; }
+    .r-a.correct { color: var(--sage); }
+    .r-a.wrong   { color: var(--rose); }
+
+    .btn-row { display: flex; flex-direction: column; gap: 8px; }
+
+    .btn-ghost {
+      width: 100%;
+      padding: 0.75rem;
+      background: transparent;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--brown);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-ghost:hover { background: var(--warm); border-color: var(--caramel); }
+
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.25rem; }
+      h1 { font-size: 1.6rem; }
+      .choices { grid-template-columns: 1fr; }
+      .diff-grid { grid-template-columns: repeat(3, 1fr); }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<site-header>
+  <h1>Cake Trivia</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="scratch.html">From-scratch web page</a>
+  </nav>
+</site-header>
+
+<div class="main-wrap">
+<div class="card">
+
+  <!-- START -->
+  <div id="start" class="screen active">
+    <div class="icon">🎂</div>
+    <p class="tagline">How well do you know the world's most beloved baked goods?<br>Pick a difficulty and find out.</p>
+    <div class="diff-grid">
+      <div class="diff-btn" onclick="selectDiff('easy', this)">
+        <div class="de">🍰</div>
+        <div class="dl">Easy</div>
+        <div class="dd">Party basics</div>
+      </div>
+      <div class="diff-btn" onclick="selectDiff('medium', this)">
+        <div class="de">🎂</div>
+        <div class="dl">Medium</div>
+        <div class="dd">Baking curious</div>
+      </div>
+      <div class="diff-btn" onclick="selectDiff('hard', this)">
+        <div class="de">👨‍🍳</div>
+        <div class="dl">Hard</div>
+        <div class="dd">Connoisseur</div>
+      </div>
+    </div>
+    <button class="cta" id="start-btn" disabled onclick="startGame()">Choose a difficulty to start</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="screen">
+    <div class="top-bar">
+      <span class="q-label" id="q-label">Question 1 of 8</span>
+      <span class="score-pill" id="score-pill">Score: 0</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div class="timer-row">
+      <div class="timer-track"><div class="timer-fill" id="timer-fill" style="width:100%;background:#c47a2b;"></div></div>
+      <span class="timer-num" id="timer-num">15</span>
+    </div>
+    <div class="q-card">
+      <div class="q-cat" id="q-cat">Category</div>
+      <div class="q-text" id="q-text">Question</div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQ()">Next question →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results" class="screen">
+    <div class="results-hero">
+      <div class="big-num" id="big-num">0/8</div>
+      <div class="big-sub">questions correct</div>
+      <div class="rank" id="rank-badge"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-val" id="s-pct">0%</div><div class="stat-lbl">Accuracy</div></div>
+      <div class="stat"><div class="stat-val" id="s-str">0</div><div class="stat-lbl">Best streak</div></div>
+      <div class="stat"><div class="stat-val" id="s-time">0s</div><div class="stat-lbl">Avg time</div></div>
+    </div>
+    <div class="review">
+      <div class="review-title">Answer review</div>
+      <div id="review-list"></div>
+    </div>
+    <div class="btn-row">
+      <button class="cta" onclick="resetGame()">Play again</button>
+      <button class="btn-ghost" onclick="alert('Nice work! Try the Hard difficulty next.')">Challenge a friend ↗</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  const Q = {
+    easy: [
+      { cat:"Origins",     text:"What country is the Black Forest cake originally from?",                                choices:["France","Germany","Austria","Switzerland"],          ans:1, fact:"Schwarzwälder Kirschtorte comes from Baden-Württemberg, Germany." },
+      { cat:"Ingredients", text:"What gives Red Velvet cake its signature color?",                                       choices:["Beet juice","Red dye & cocoa reaction","Strawberry extract","Tomato paste"], ans:1, fact:"The hue comes from cocoa reacting with acidic buttermilk, enhanced by food coloring." },
+      { cat:"Types",       text:"A classic Victoria sponge is typically filled with what?",                              choices:["Chocolate ganache","Lemon curd","Jam & whipped cream","Cream cheese"], ans:2, fact:"Named after Queen Victoria, this British cake is filled with jam and whipped cream." },
+      { cat:"Technique",   text:"What does 'creaming' butter and sugar mean?",                                           choices:["Melting together","Beating until light & fluffy","Folding gently","Sifting together"], ans:1, fact:"Creaming aerates the fat and sugar, creating air pockets that help the cake rise." },
+      { cat:"World cakes", text:"Tiramisu is a layered cake from which country?",                                        choices:["Spain","France","Italy","Greece"],                    ans:2, fact:"Tiramisu (meaning 'pick me up') is from the Veneto region of Italy." },
+      { cat:"Ingredients", text:"What flour is used in a classic French genoise?",                                       choices:["Bread flour","Whole wheat","All-purpose flour","Almond flour"], ans:2, fact:"Génoise uses all-purpose flour and lifts from whipped eggs, not chemical leaveners." },
+      { cat:"Types",       text:"Angel food cake is unique because it contains no what?",                                choices:["Sugar","Egg whites","Flour","Fat/butter"],            ans:3, fact:"Angel food cake contains no fat — its airy texture comes from whipped egg whites only." },
+      { cat:"History",     text:"What is the approximate age of the oldest known cake recipe?",                          choices:["200 years","500 years","1,000 years","4,000 years"],  ans:3, fact:"Ancient Egyptian records document sweetened bread-like cakes dating back ~4,000 years." },
+    ],
+    medium: [
+      { cat:"History",     text:"The Dobos torte with caramel-topped sponge layers originates from which country?",      choices:["Czech Republic","Hungary","Romania","Poland"],        ans:1, fact:"Created by József C. Dobos in 1884 in Hungary, designed to stay fresh longer." },
+      { cat:"Technique",   text:"What is the primary purpose of brushing cake layers with simple syrup?",               choices:["Add sweetness","Preserve moisture","Create caramel flavor","Bind layers"], ans:1, fact:"Simple syrup keeps sponge cakes moist, especially useful in multi-day assembly." },
+      { cat:"Science",     text:"What happens when baking soda reacts with an acid in batter?",                          choices:["Produces steam","Releases CO₂ gas","Browns the cake","Thickens it"], ans:1, fact:"Baking soda reacts with acids to release CO₂ bubbles that leaven the batter." },
+      { cat:"World cakes", text:"Baumkuchen, the 'king of cakes' in Japan, is a traditional cake from where?",           choices:["Austria","Germany","Switzerland","Netherlands"],      ans:1, fact:"Baumkuchen means 'tree cake' in German — its rings are visible when sliced." },
+      { cat:"Frosting",    text:"Italian meringue buttercream differs from Swiss by using:",                             choices:["Cold egg whites","Hot sugar syrup poured into whites","Brown butter","No egg whites"], ans:1, fact:"Italian meringue pours hot sugar syrup (240°F) into whipped whites — more stable." },
+      { cat:"Ingredients", text:"What makes chiffon cake different from a regular oil-based cake?",                      choices:["More sugar","Whipped egg whites folded in","Cake flour only","Sour cream"], ans:1, fact:"Chiffon folds stiffly whipped egg whites into an oil batter, giving light but rich texture." },
+      { cat:"Types",       text:"Which cake features a distinctive checkerboard pattern when sliced?",                   choices:["Marble cake","Battenberg cake","Zebra cake","Neapolitan cake"], ans:1, fact:"Battenberg uses two colored sponges in a 2×2 grid, wrapped in marzipan." },
+      { cat:"Language",    text:"The word 'cake' derives from the Old Norse word for what?",                             choices:["Sweet bread","Honeyed round","Kaka (lump)","Celebration"], ans:2, fact:"The English word 'cake' comes from the Old Norse 'kaka', meaning a lump of baked dough." },
+    ],
+    hard: [
+      { cat:"Chemistry",   text:"Why does a high-ratio cake require emulsified shortening?",                             choices:["To reduce sweetness","To support excess liquid without collapse","For flakier layers","To slow staling"], ans:1, fact:"Emulsified shortening holds more water and sugar, preventing collapse when sugar exceeds flour by weight." },
+      { cat:"History",     text:"Which cake has been central to UK wedding tradition since Queen Victoria's 1840 wedding?", choices:["Genoise","Fruitcake","Pound cake","Madeira cake"],    ans:1, fact:"Rich fruitcake covered in marzipan and royal icing became the UK wedding cake standard." },
+      { cat:"Pastry sci.", text:"What causes the dense crumb and glossy crust of a properly made financier?",            choices:["High egg yolk","Beurre noisette & almond flour","Bread flour","Steam"], ans:1, fact:"Beurre noisette (browned butter) undergoes Maillard reaction, creating the dense glossy crumb." },
+      { cat:"Technique",   text:"In Japanese cotton cheesecake, what creates its cloud-like texture?",                   choices:["Extra cream cheese","Whipped egg whites folded in","Water bath only","Cornstarch only"], ans:1, fact:"Japanese soufflé cheesecake folds meringue into the batter and bakes in a water bath." },
+      { cat:"World cakes", text:"Sweden's Prinsesstårta (princess cake) is traditionally covered in green marzipan. What's inside?", choices:["Custard, jam & whipped cream","Chocolate ganache & praline","Lemon curd & buttercream","Almond cream & berries"], ans:0, fact:"Princess cake layers sponge with raspberry jam, pastry cream, and whipped cream." },
+      { cat:"Chemistry",   text:"What role does vinegar play in a chocolate cake recipe?",                               choices:["Flavor only","Leavens & tenderizes gluten","Prevents browning","Thickens batter"], ans:1, fact:"Vinegar reacts with baking soda for CO₂ lift and inhibits gluten development for a tender crumb." },
+      { cat:"Pastry",      text:"What is an 'entremets' in modern pastry?",                                             choices:["A single-layer cake","A multi-component mousse cake with mirror glaze","A French crepe cake","An éclair variation"], ans:1, fact:"Entremets are composed mousse cakes with multiple layers, inserts, and a mirror glaze — pinnacle of French pastry." },
+      { cat:"History",     text:"The earliest documented cake-like foods are associated with which civilization?",        choices:["Ancient Greece","Ancient Egypt","Ancient Rome","Mesopotamia"], ans:1, fact:"Egyptian tomb paintings and hieroglyphs document early sweetened cake-like foods ~4,000 years ago." },
+    ]
+  };
+
+  let diff = null, questions = [], cur = 0, score = 0, streak = 0, bestStreak = 0;
+  let answered = false, timerInt = null, timeLeft = 15, elapsed = 0;
+  let answerTimes = [], history = [];
+
+  function selectDiff(d, el) {
+    diff = d;
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    const btn = document.getElementById('start-btn');
+    btn.disabled = false;
+    btn.textContent = 'Start — ' + d.charAt(0).toUpperCase() + d.slice(1) + ' mode';
+  }
+
+  function shuffle(a) {
+    const arr = [...a];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    el.classList.add('active');
+  }
+
+  function startGame() {
+    questions = shuffle(Q[diff]);
+    cur = 0; score = 0; streak = 0; bestStreak = 0;
+    history = []; answerTimes = [];
+    show('quiz');
+    renderQ();
+  }
+
+  function renderQ() {
+    answered = false;
+    timeLeft = 15;
+    elapsed = 0;
+
+    const q = questions[cur];
+    const total = questions.length;
+
+    document.getElementById('prog').style.width = (cur / total * 100) + '%';
+    document.getElementById('q-label').textContent = 'Question ' + (cur + 1) + ' of ' + total;
+    document.getElementById('score-pill').textContent = 'Score: ' + score;
+    document.getElementById('q-cat').textContent = q.cat;
+    document.getElementById('q-text').textContent = q.text;
+
+    const fb = document.getElementById('feedback');
+    fb.className = 'feedback';
+    fb.textContent = '';
+    const nb = document.getElementById('next-btn');
+    nb.className = 'next-btn';
+
+    const ch = document.getElementById('choices');
+    ch.innerHTML = '';
+    q.choices.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice';
+      btn.textContent = c;
+      btn.onclick = () => pick(i);
+      ch.appendChild(btn);
+    });
+
+    startTimer();
+  }
+
+  function startTimer() {
+    clearInterval(timerInt);
+    const bar = document.getElementById('timer-fill');
+    const num = document.getElementById('timer-num');
+    const start = Date.now();
+
+    timerInt = setInterval(() => {
+      elapsed = (Date.now() - start) / 1000;
+      timeLeft = Math.max(0, 15 - elapsed);
+      const pct = (timeLeft / 15) * 100;
+      bar.style.width = pct + '%';
+      bar.style.background = pct > 50 ? '#c47a2b' : pct > 25 ? '#d4607a' : '#b03050';
+      num.textContent = Math.ceil(timeLeft);
+      if (timeLeft <= 0) { clearInterval(timerInt); if (!answered) timeout(); }
+    }, 80);
+  }
+
+  function timeout() {
+    answered = true;
+    streak = 0;
+    const q = questions[cur];
+    const btns = document.querySelectorAll('.choice');
+    btns.forEach((b, i) => { b.disabled = true; if (i === q.ans) b.classList.add('reveal'); });
+    showFb(false, "Time's up! " + q.fact);
+    showNext();
+    history.push({ q: q.text, ua: null, ca: q.choices[q.ans], ok: false });
+    answerTimes.push(15);
+  }
+
+  function pick(idx) {
+    if (answered) return;
+    answered = true;
+    clearInterval(timerInt);
+    answerTimes.push(Math.min(15, elapsed));
+
+    const q = questions[cur];
+    const btns = document.querySelectorAll('.choice');
+    btns.forEach(b => b.disabled = true);
+
+    const ok = idx === q.ans;
+    if (ok) {
+      score++; streak++;
+      if (streak > bestStreak) bestStreak = streak;
+      btns[idx].classList.add('correct');
+      showFb(true, 'Correct! ' + q.fact);
+    } else {
+      streak = 0;
+      btns[idx].classList.add('wrong');
+      btns[q.ans].classList.add('reveal');
+      showFb(false, 'Not quite. ' + q.fact);
+    }
+
+    history.push({ q: q.text, ua: q.choices[idx], ca: q.choices[q.ans], ok });
+    showNext();
+  }
+
+  function showFb(ok, msg) {
+    const fb = document.getElementById('feedback');
+    fb.className = 'feedback show ' + (ok ? 'correct' : 'wrong');
+    fb.textContent = msg;
+  }
+
+  function showNext() {
+    const nb = document.getElementById('next-btn');
+    nb.className = 'next-btn show';
+    nb.textContent = cur < questions.length - 1 ? 'Next question →' : 'See results →';
+  }
+
+  function nextQ() {
+    cur++;
+    if (cur >= questions.length) showResults();
+    else renderQ();
+  }
+
+  function showResults() {
+    clearInterval(timerInt);
+    show('results');
+    document.getElementById('prog').style.width = '100%';
+
+    const total = questions.length;
+    const pct = Math.round(score / total * 100);
+    const avgT = answerTimes.length ? Math.round(answerTimes.reduce((a, b) => a + b, 0) / answerTimes.length) : 0;
+
+    document.getElementById('big-num').textContent = score + '/' + total;
+    document.getElementById('s-pct').textContent = pct + '%';
+    document.getElementById('s-str').textContent = bestStreak;
+    document.getElementById('s-time').textContent = avgT + 's';
+
+    const ranks = [
+      { min: 100, label: 'Master Patissier', bg: '#fff3e0', color: '#7a4500' },
+      { min: 75,  label: 'Skilled Baker',    bg: '#eef6ee', color: '#2e4d2f' },
+      { min: 50,  label: 'Kitchen Apprentice', bg: '#fff8ee', color: '#6b3c10' },
+      { min: 0,   label: 'Cake Curious',     bg: '#fdf0f0', color: '#7a2030' },
+    ];
+    const r = ranks.find(x => pct >= x.min);
+    const rb = document.getElementById('rank-badge');
+    rb.textContent = r.label;
+    rb.style.background = r.bg;
+    rb.style.color = r.color;
+
+    const rl = document.getElementById('review-list');
+    rl.innerHTML = '';
+    history.forEach(h => {
+      const d = document.createElement('div');
+      d.className = 'r-item';
+      d.innerHTML =
+        '<div class="r-q">' + h.q + '</div>' +
+        '<div class="r-a ' + (h.ok ? 'correct' : 'wrong') + '">' +
+        (h.ok ? '✓ ' : '✗ ') + (h.ua || 'Timed out') +
+        (!h.ok ? ' — correct: ' + h.ca : '') + '</div>';
+      rl.appendChild(d);
+    });
+  }
+
+  function resetGame() {
+    diff = null;
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
+    const btn = document.getElementById('start-btn');
+    btn.disabled = true;
+    btn.textContent = 'Choose a difficulty to start';
+    show('start');
+  }
+</script>
+</body>
+</html>
