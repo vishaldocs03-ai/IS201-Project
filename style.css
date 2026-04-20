@@ -21,9 +21,21 @@ body {
 #hero {
     background-image: url("images/bakery.jpg");
     background-size: 100%;
-    padding: 5rem 2rem;
+    padding: 0 2rem;
     color: white;
     text-shadow: 0 0 10px black;
+    position: relative;
+    min-height: 100vh;
+
+    & #hero-inner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 1rem;
+        border-radius: 1rem;
+    }
 
     & h2 {
         font-size: 4rem;
